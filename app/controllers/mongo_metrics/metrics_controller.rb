@@ -2,6 +2,7 @@
 module MongoMetrics
   class MetricsController < ApplicationController
     respond_to :html, :json
+    respond_to :csv, only: :index
 
     def index
       @metrics = Metric.all

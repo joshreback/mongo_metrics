@@ -29,5 +29,11 @@ class NavigationTest < ActionDispatch::IntegrationTest
     get mongo_metrics.root_path
     assert 0, MongoMetrics::Metric.count
   end
+
+  test "exports data to csv" do
+    get main_app.home_foo_path  # Generate data
+    get mongo_metrics.metrics_path(format: :csv)  # Request csv response
+    assert_match "process_action.action_controller,", response.body
+  end
 end
 

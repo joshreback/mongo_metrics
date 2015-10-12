@@ -41,3 +41,24 @@ Expose this data through a mountable engine which can be shared across Rails app
 
 - (Goal with middlewares is to turn off the metrics store when we are hitting the engine itself)
 - Any Rack middleware is initialized with the application or the middleware it should call next in the stack
+
+### Streaming with Rack
+
+- In Chapter 5 we used Rails's live-streaming facilities to stream data; here we'll use Rack's
+- Rack specifies that a valid response body is any Ruby objecdt that responds to the method `each()`
+- The Rack web server will loop over the response body, using the `each()` method, and output the data yielded
+- To enable streaming, we need to have a custom iteration mechanism that responds to `each()`
+  - i.e, could be as simple as an object with an each method that continues to yield a response body
+  '''
+  class StreamingRack
+    def call(env)
+      [200, { 'Content-Type' => 'text/html' }, self]
+    end
+
+    def each
+      while true
+        yield 'Hello Rack!\n'
+      end
+    end
+  end
+  '''
