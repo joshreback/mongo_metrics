@@ -40,3 +40,4 @@ Expose this data through a mountable engine which can be shared across Rails app
   - You can invoke certain middlewares on a controller by controller basis, and it will be invoked before any filters and before the action is processed
 
 - (Goal with middlewares is to turn off the metrics store when we are hitting the engine itself)
+- Any Rack middleware is initialized with the application or the middleware it should call next in the stack
